@@ -14,6 +14,7 @@ type Item struct {
 	Size         int64     `json:"size"`
 	LastModify   time.Time `json:"last_modify"`
 	StorageClass string    `json:"storage_class"`
+	PathURL      string    `json:"path_url"`
 }
 
 type ListFiles struct {
@@ -44,6 +45,7 @@ func (s *Session) GetListFiles(session *session.Session) (listFiles ListFiles, e
 		file.Size = *item.Size
 		file.LastModify = *item.LastModified
 		file.StorageClass = *item.StorageClass
+		file.PathURL = "https://" + s.Bucket + ".s3." + s.AWSRegion + ".amazonaws.com/" + file.Name
 		itemsList = append(itemsList, file)
 		count++
 	}

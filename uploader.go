@@ -16,8 +16,10 @@ func (s *Session) UploadFile(awsSession *session.Session, file multipart.File, f
 		mimeType = fileHeader.Header.Get("Content-Type")
 		err      error
 	)
-	if awsSession == nil {
+
+	if awsSession == nil || s == nil {
 		err = errors.New("aws-Session is incorrect")
+		return "", err
 	}
 
 	uploader := s3manager.NewUploader(awsSession)

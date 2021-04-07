@@ -6,13 +6,6 @@ import (
 	"github.com/aws/aws-sdk-go/aws/session"
 )
 
-type Session struct {
-	AccessKeyID     string
-	SecretAccessKey string
-	AWSRegion       string
-	Bucket          string
-}
-
 func (s *Session) ConnectAws(AWSSession Session) (*session.Session, error) {
 	sessionAWS, err := session.NewSession(
 		&aws.Config{

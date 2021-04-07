@@ -58,3 +58,27 @@ func (s *Session) DeleteAllFiles(session *session.Session) error {
 
 	return nil
 }
+
+func (s *Session) DeleteBucketSvc(session *session.Session, bucketName string) error {
+	if session == nil || s == nil {
+		err := errors.New("aws-Session is incorrect")
+		return err
+	}
+
+	svc := s3.New(session)
+	_, err := svc.DeleteBucket(&s3.DeleteBucketInput{
+		Bucket: aws.String(bucketName),
+	})
+	if err != nil {
+		return err
+	}
+
+	err = svc.WaitUntilBucketNotExists(&s3.HeadBucketInput{
+		Bucket: aws.String(bucketName),
+	})
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
